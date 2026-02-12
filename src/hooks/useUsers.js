@@ -6,6 +6,6 @@ export const useUser=(page)=>{
         queryKey:["users",page],
         queryFn:()=>getUsers(page),
         keepPreviousData: true,
-        
+
     });
 }

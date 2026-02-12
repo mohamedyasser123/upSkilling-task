@@ -6,20 +6,53 @@ const axiosInstance = axios.create({
     "app-id": "64fc4a747b1786417e354f31",
   },
 });
-export const getUsers = async (page = 0) => {
-  const res = await axiosInstance.get(`/user?limit=10&page=${page}`);
-  return res.data;
+
+export const getUsers = async (page = 0, limit = 10) => {
+  try {
+    const { data } = await axiosInstance.get("/user", { params: { limit, page } });
+    return data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
 };
-export const createUser = async (data) => {
-  const res = await axiosInstance.post("/user/create", data);
-   return res.data;
+
+export const createUser = async ({ firstName, lastName, email, title = "mr" }) => {
+  try {
+    const { data } = await axiosInstance.post("/user/create", { firstName, lastName, email, title });
+    return data;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
 };
+
 export const updateUser = async ({ id, data }) => {
-  const res = await axiosInstance.put(`/user/${id}`, data);
-  return res.data;
+  try {
+    const { data: updated } = await axiosInstance.put(`/user/${id}`, data);
+    return updated;
+  } catch (error) {
+    console.error(`Error updating user ${id}:`, error);
+    throw error;
+  }
 };
 
 export const deleteUser = async (id) => {
-  const res = await axiosInstance.delete(`/user/${id}`);
-  return res.data;
+  try {
+    const { data } = await axiosInstance.delete(`/user/${id}`);
+    return data;
+  } catch (error) {
+    console.error(`Error deleting user ${id}:`, error);
+    throw error;
+  }
+};
+
+export const getUserById = async (id) => {
+  try {
+    const { data } = await axiosInstance.get(`/user/${id}`);
+    return data;
+  } catch (error) {
+    console.error(`Error fetching user ${id}:`, error);
+    throw error;
+  }
 };
